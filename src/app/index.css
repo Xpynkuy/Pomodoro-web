@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: rgb(236,204,218);
+  background: radial-gradient(circle, rgba(236,204,218,1) 0%, rgba(148,187,233,1) 100%);
+}
+
+
+/* Для всей страницы или для конкретного контейнера */
+::-webkit-scrollbar {
+  width: 10px;               /* ширина скроллбара */
+  height: 10px;              /* высота (если горизонтальный скролл) */
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent; /* Цвет фона "дорожки" */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #c2c2c2;    
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #969696;   
+}
