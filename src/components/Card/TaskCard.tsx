@@ -1,3 +1,4 @@
+// TaskCard.tsx
 import React from "react";
 import { useTasksStore } from "../../store/store";
 import { categories } from "../../constants/category";
@@ -12,7 +13,7 @@ interface TaskCardProps {
   };
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
+const TaskCardComponent: React.FC<TaskCardProps> = ({ task }) => {
   const deleteTask = useTasksStore((state) => state.deleteTask);
   const toggleTask = useTasksStore((state) => state.toggleTask);
 
@@ -23,8 +24,9 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
       <div className="flex">
         <input
           type="checkbox"
+          checked={task.completed}
           onChange={() => toggleTask(task.id)}
-          className=" w-4 h-4 text-green-400"
+          className="appearance-none w-5 h-5 border-2 border-gray-400 rounded-full checked:bg-green-400 checked:border-green-500 focus:outline-none cursor-pointer"
         />
       </div>
 
@@ -34,13 +36,12 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
             <img
               src={currentCategory.icon}
               alt={currentCategory.label}
-              className="w-6 h-6"
+              className="w-10 h-10 rounded-lg bg-gray-400/30 p-1"
             />
           </div>
         )}
         <div className="flex flex-col">
           <h1>{task.title}</h1>
-
           <p className="text-sm text-gray-500">{task.description}</p>
         </div>
       </div>
@@ -52,4 +53,5 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   );
 };
 
+export const TaskCard = React.memo(TaskCardComponent);
 export default TaskCard;

@@ -1,16 +1,18 @@
+// NewTask.tsx
 import React, { useState } from "react";
-import { useTasksStore } from "../../store/store";
+import { useTasksStore, useModalStore } from "../../store/store";
 import CategorySelect from "../Category/CategorySelect";
 import { categories } from "../../constants/category";
 import MyButton from "../UI/button/MyButton";
 
 const NewTask: React.FC = () => {
-  const [title, setTitle] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [error, setError] = useState("");
   const addTask = useTasksStore((state) => state.addTask);
-  const closeModal = useTasksStore((state) => state.closeModal);
+  const closeModal = useModalStore((state) => state.closeModal);
+
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
+  const [description, setDescription] = useState("");
+  const [error, setError] = useState("");
 
   const handleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,17 +30,7 @@ const NewTask: React.FC = () => {
     }
 
     addTask(title, category, description);
-    setTitle("");
-    setCategory("");
-    setDescription("");
-    setError("");
     closeModal();
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleAddTask(e);
-    }
   };
 
   return (
@@ -46,21 +38,29 @@ const NewTask: React.FC = () => {
       <input
         type="text"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        onKeyDown={handleKeyDown}
+        onChange={(e) => {
+          setTitle(e.target.value);
+          setError("");
+        }}
         placeholder="Enter a new task"
-        className="w-full p-2"
+        className="w-full p-2 rounded-xl border focus: outline-none"
       />
       <CategorySelect
         categories={categories}
         selectedCategory={category}
-        onCategoryChange={setCategory}
+        onCategoryChange={(catId) => {
+          setCategory(catId);
+          setError("");
+        }}
       />
       <textarea
         value={description}
-        onChange={(e) => setDescription(e.target.value)}
+        onChange={(e) => {
+          setDescription(e.target.value);
+          setError("");
+        }}
         placeholder="Enter a desc"
-        className="w-full h-40 resize-none p-2 rounded-xl border"
+        className="w-full h-40 resize-none p-2 rounded-xl border focus: outline-none"
       />
 
       {error && <div className="text-red-500 text-center">{error}</div>}
@@ -69,7 +69,6 @@ const NewTask: React.FC = () => {
         <MyButton variant="secondary" type="button" onClick={closeModal}>
           Cancel
         </MyButton>
-
         <MyButton type="submit">Add Task</MyButton>
       </div>
     </form>
