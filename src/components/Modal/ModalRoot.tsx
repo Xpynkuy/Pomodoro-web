@@ -1,7 +1,7 @@
 import React from "react";
 import { useModalStore } from "../../store/store";
 import Modal from "./Modal";
-import NewTask from "../Tasks/NewTask";
+import TaskForm from "../Tasks/TaskForm";
 
 const ModalRoot: React.FC = () => {
   const isModalOpen = useModalStore((state) => state.isModalOpen);
@@ -10,7 +10,7 @@ const ModalRoot: React.FC = () => {
 
   return (
     <Modal>
-      <NewTask />
+      <TaskForm />
     </Modal>
   );
 };

@@ -1,7 +1,19 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { ITasks } from "../types/types";
 
+// Интерфейс задачи
+export interface ITasks {
+  id: number;
+  title: string;
+  completed: boolean;
+  createdAt: Date;
+  category: string;
+  description: string;
+}
+
+// ---------------------
+// Хранилище задач
+// ---------------------
 interface ITasksStore {
   tasks: ITasks[];
   searchQuery: string;
@@ -10,6 +22,7 @@ interface ITasksStore {
   deleteTask: (id: number) => void;
   toggleTask: (id: number) => void;
   setSearchQuery: (query: string) => void;
+  updateTask: (id: number, updates: Partial<ITasks>) => void;
 }
 
 export const useTasksStore = create<ITasksStore>()(
@@ -21,7 +34,7 @@ export const useTasksStore = create<ITasksStore>()(
 
       addTask: (title, category, description) =>
         set((state) => {
-          const newTasks = [
+          const newTasks: ITasks[] = [
             ...state.tasks,
             {
               id: Date.now(),
@@ -32,13 +45,30 @@ export const useTasksStore = create<ITasksStore>()(
               description,
             },
           ];
-          return { tasks: newTasks, filteredTasks: filterTasks(newTasks, state.searchQuery) };
+          return {
+            tasks: newTasks,
+            filteredTasks: filterTasks(newTasks, state.searchQuery),
+          };
+        }),
+
+      updateTask: (id, updates) =>
+        set((state) => {
+          const newTasks = state.tasks.map((task) =>
+            task.id === id ? { ...task, ...updates } : task
+          );
+          return {
+            tasks: newTasks,
+            filteredTasks: filterTasks(newTasks, state.searchQuery),
+          };
         }),
 
       deleteTask: (id) =>
         set((state) => {
           const newTasks = state.tasks.filter((task) => task.id !== id);
-          return { tasks: newTasks, filteredTasks: filterTasks(newTasks, state.searchQuery) };
+          return {
+            tasks: newTasks,
+            filteredTasks: filterTasks(newTasks, state.searchQuery),
+          };
         }),
 
       toggleTask: (id) =>
@@ -46,7 +76,10 @@ export const useTasksStore = create<ITasksStore>()(
           const newTasks = state.tasks.map((task) =>
             task.id === id ? { ...task, completed: !task.completed } : task
           );
-          return { tasks: newTasks, filteredTasks: filterTasks(newTasks, state.searchQuery) };
+          return {
+            tasks: newTasks,
+            filteredTasks: filterTasks(newTasks, state.searchQuery),
+          };
         }),
 
       setSearchQuery: (query) =>
@@ -56,16 +89,21 @@ export const useTasksStore = create<ITasksStore>()(
         })),
     }),
     {
-      name: "tasks-storage", // Уникальное имя для localStorage
+      name: "tasks-storage", // название для localStorage
     }
   )
 );
 
-const filterTasks = (tasks: ITasks[], query: string) => {
+function filterTasks(tasks: ITasks[], query: string) {
   if (!query.trim()) return tasks;
-  return tasks.filter((task) => task.title.toLowerCase().includes(query.toLowerCase()));
-};
+  return tasks.filter((task) =>
+    task.title.toLowerCase().includes(query.toLowerCase())
+  );
+}
 
+// ---------------------
+// Хранилище модалки
+// ---------------------
 interface IModalStore {
   isModalOpen: boolean;
   openModal: () => void;
@@ -76,4 +114,17 @@ export const useModalStore = create<IModalStore>((set) => ({
   isModalOpen: false,
   openModal: () => set({ isModalOpen: true }),
   closeModal: () => set({ isModalOpen: false }),
+}));
+
+// ---------------------
+// Хранилище для "редактируемой" задачи
+// ---------------------
+interface IEditTaskStore {
+  taskToEdit: ITasks | null;
+  setTaskToEdit: (task: ITasks | null) => void;
+}
+
+export const useEditTaskStore = create<IEditTaskStore>((set) => ({
+  taskToEdit: null,
+  setTaskToEdit: (task) => set({ taskToEdit: task }),
 }));
