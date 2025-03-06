@@ -9,20 +9,19 @@ const TasksLayout: React.FC = () => {
   const setTaskToEdit = useEditTaskStore((state) => state.setTaskToEdit);
 
   const handleAddTask = () => {
-    // Сбрасываем taskToEdit => форма будет пустой
     setTaskToEdit(null);
-    // Открываем модалку
+
     openModal();
   };
 
   return (
-    <div className="flex-col rounded-2xl bg-slate-100/20 p-5">
-      <div className="flex items-center justify-between mr-6 mb-4">
+    <div className="flex-col rounded-2xl bg-slate-100/20 p-5 ">
+      <div className="flex items-center justify-between mr-6 mb-4 text-lg font-semibold">
         <h1>Tasks List</h1>
         <TaskSearch />
       </div>
 
-      <div className="h-[600px] overflow-y-scroll">
+      <div className="h-[580px] overflow-y-scroll">
         <TasksList />
       </div>
 

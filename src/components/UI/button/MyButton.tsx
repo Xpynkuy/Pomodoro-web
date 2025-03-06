@@ -11,7 +11,7 @@ const MyButton: React.FC<ButtonProps> = ({
   ...props
 }) => {
 
-  const baseStyles = "w-32 h-10 rounded-3xl text-white transition-colors  duration-300";
+  const baseStyles = "w-32 h-12 rounded-3xl text-white transition-colors  duration-300";
 
   const variantStyles =
     variant === "secondary"

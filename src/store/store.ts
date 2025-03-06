@@ -1,19 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { ITasks } from "../types/types";
 
-// Интерфейс задачи
-export interface ITasks {
-  id: number;
-  title: string;
-  completed: boolean;
-  createdAt: Date;
-  category: string;
-  description: string;
-}
 
-// ---------------------
-// Хранилище задач
-// ---------------------
 interface ITasksStore {
   tasks: ITasks[];
   searchQuery: string;

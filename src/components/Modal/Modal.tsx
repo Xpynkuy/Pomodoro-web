@@ -19,9 +19,12 @@ const Modal: React.FC<ModalProps> = ({ children }) => {
   return (
     <div
       onClick={handleOverlayClick}
-      className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50"
+      className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50"
     >
-      <div ref={modalRef} className="bg-white p-6 rounded-xl shadow-lg w-[500px]">
+      <div
+        ref={modalRef}
+        className="z-50 bg-white p-6 rounded-xl shadow-lg w-[500px]"
+      >
         {children}
       </div>
     </div>

@@ -4,5 +4,6 @@ export interface ITasks {
     completed: boolean,
     category: string,
     description: string,
+    createdAt: Date,
     
 }
