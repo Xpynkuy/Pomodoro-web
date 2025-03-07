@@ -1,6 +1,5 @@
-// store/pomodoroStore.ts
 import { create } from "zustand";
-import { useTasksStore } from "./store";
+import { useTasksStore } from "./useTaskStore";
 
 const WORK_DURATION = 25 * 60;
 const SHORT_BREAK_DURATION = 5 * 60;
@@ -32,24 +31,14 @@ export const usePomodoroStore = create<IPomodoroStore>((set, get) => ({
   currentTaskId: null,
   workCycleCount: 0,
 
-  // Без alert
   pickTask: (taskId) => {
     const { currentTaskId } = get();
     const tasks = useTasksStore.getState().tasks;
-
-    // Если задачи вообще нет — просто return
     const chosen = tasks.find((t) => t.id === taskId);
-    if (!chosen) {
-      return;
-    }
+    if (!chosen) return; // Нет такой задачи
+    if (taskId === currentTaskId) return; // Та же самая
 
-    // Если пользователь кликает на ту же самую задачу — ничего не делаем
-    if (taskId === currentTaskId) {
-      return;
-    }
-
-    // Выбираем задачу (даже если completed), 
-    // сбрасываем таймер (work, 25 мин, isRunning=false)
+    // Сбрасываем таймер и выбираем новую задачу
     set({
       currentTaskId: taskId,
       sessionType: "work",
@@ -69,23 +58,16 @@ export const usePomodoroStore = create<IPomodoroStore>((set, get) => ({
     });
   },
 
-  startTimer: () => {
-    set({ isRunning: true });
-  },
-
-  pauseTimer: () => {
-    set({ isRunning: false });
-  },
-
-  resetTimer: () => {
+  startTimer: () => set({ isRunning: true }),
+  pauseTimer: () => set({ isRunning: false }),
+  resetTimer: () =>
     set({
       sessionType: "work",
       timeLeft: WORK_DURATION,
       isRunning: false,
       currentTaskId: null,
       workCycleCount: 0,
-    });
-  },
+    }),
 
   skipSession: () => {
     const { sessionType, workCycleCount } = get();
@@ -129,6 +111,7 @@ export const usePomodoroStore = create<IPomodoroStore>((set, get) => ({
     if (timeLeft > 0) {
       set({ timeLeft: timeLeft - 1 });
     } else {
+      // Фаза закончилась
       if (sessionType === "work") {
         const newCount = workCycleCount + 1;
         if (newCount >= 4) {
@@ -146,7 +129,8 @@ export const usePomodoroStore = create<IPomodoroStore>((set, get) => ({
             isRunning: true,
           });
         }
-      } else if (sessionType === "shortBreak" || sessionType === "longBreak") {
+      } else {
+        // shortBreak или longBreak => обратно в work
         set({
           sessionType: "work",
           timeLeft: WORK_DURATION,

@@ -1,4 +1,3 @@
-// ProgressCircle.tsx
 import React from "react";
 
 interface ProgressCircleProps {
@@ -17,9 +16,9 @@ const ProgressCircle: React.FC<ProgressCircleProps> = ({ percentage }) => {
   const offset = circumference - (clamped / 100) * circumference;
 
   return (
-    <div className="relative w-24 h-24">
+    <div className="relative w-28 h-28">
       {/* Сам SVG, повёрнут на -90°, чтобы "начало" дуги было сверху */}
-      <svg className="w-24 h-24 transform -rotate-90" viewBox="0 0 100 100">
+      <svg className="w-28 h-28 transform -rotate-90" viewBox="0 0 100 100">
         {/* 1) Серый "фон" кольца + fill для внутренней области */}
         <circle
           className="text-white/40"    // цвет обводки (stroke)

@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Search } from "lucide-react";
-import { useTasksStore } from "../../store/store";
+import { useSearchStore } from "../../store/useSearchStore";
 
 const TaskSearch: React.FC = () => {
   const [expanded, setExpanded] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const searchQuery = useTasksStore((state) => state.searchQuery);
-  const setSearchQuery = useTasksStore((state) => state.setSearchQuery);
+  const searchQuery = useSearchStore((state) => state.searchQuery);
+  const setSearchQuery = useSearchStore((state) => state.setSearchQuery);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {

@@ -1,8 +1,10 @@
 import React from "react";
 import TasksList from "./TasksList";
 import TaskSearch from "../Search/TaskSearch";
-import { useModalStore, useEditTaskStore } from "../../store/store";
+
 import { Plus } from "lucide-react";
+import { useModalStore } from "../../store/useModalStore";
+import { useEditTaskStore } from "../../store/useEditTaskStore";
 
 const TasksLayout: React.FC = () => {
   const openModal = useModalStore((state) => state.openModal);

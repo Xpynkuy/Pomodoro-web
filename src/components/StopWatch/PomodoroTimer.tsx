@@ -1,14 +1,13 @@
-// components/StopWatch/PomodoroTimer.tsx
 import React, { useEffect } from "react";
-import { usePomodoroStore } from "../../store/pomodoroStore";
-import { useTasksStore } from "../../store/store";
 import MyButton from "../UI/button/MyButton";
 import { RotateCcw, SkipForward } from "lucide-react";
 import SessionToggle from "./SessionToggle";
+import { usePomodoroStore } from "../../store/usePomodoroStore";
+import { useTasksStore } from "../../store/useTaskStore";
+import { categories } from "../../constants/category"; // Импортируем категории
 
 const PomodoroTimer: React.FC = () => {
   const {
-    sessionType,
     timeLeft,
     isRunning,
     currentTaskId,
@@ -21,6 +20,11 @@ const PomodoroTimer: React.FC = () => {
 
   const tasks = useTasksStore((s) => s.tasks);
   const currentTask = tasks.find((t) => t.id === currentTaskId);
+
+  // Находим иконку категории для текущей задачи
+  const currentCategory = currentTask
+    ? categories.find((cat) => cat.id === currentTask.category)
+    : null;
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -44,10 +48,26 @@ const PomodoroTimer: React.FC = () => {
 
       <div className="text-9xl font-bold">{formatTime(timeLeft)}</div>
 
-      <div className="bg-white/30 p-3 rounded-2xl text-lg">
-        {currentTask ? <p>{currentTask.title}</p> : <p>It's time to focus</p>}
+      {/* Блок с задачей и иконкой */}
+      <div className="bg-white/30 p-3 rounded-2xl text-lg flex items-center gap-2">
+        {currentTask ? (
+          <>
+            {/* Иконка категории */}
+            {currentCategory && (
+              <img
+                src={currentCategory.icon}
+                alt={currentCategory.label}
+                className="w-6 h-6"
+              />
+            )}
+            -<p>{currentTask.title}</p>
+          </>
+        ) : (
+          <p>It's time to focus</p>
+        )}
       </div>
 
+      {/* Кнопки управления таймером */}
       <div className="flex justify-center gap-4 h-12">
         <button onClick={resetTimer} className="bg-red-600/80 rounded-full p-3">
           <RotateCcw />

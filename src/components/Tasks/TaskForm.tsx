@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import {
-  useModalStore,
-  useTasksStore,
-  useEditTaskStore,
-} from "../../store/store";
+
 import CategorySelect from "../Category/CategorySelect";
 import { categories } from "../../constants/category";
 import MyButton from "../UI/button/MyButton";
+import { useModalStore } from "../../store/useModalStore";
+import { useTasksStore } from "../../store/useTaskStore";
+import { useEditTaskStore } from "../../store/useEditTaskStore";
 
 const TaskForm: React.FC = () => {
   const closeModal = useModalStore((state) => state.closeModal);

@@ -1,7 +1,8 @@
 // components/StopWatch/SessionToggle.tsx
 import React from "react";
-import { usePomodoroStore } from "../../store/pomodoroStore";
+
 import { Coffee, Pickaxe, Timer } from "lucide-react";
+import { usePomodoroStore } from "../../store/usePomodoroStore";
 
 type SessionType = "work" | "shortBreak" | "longBreak";
 

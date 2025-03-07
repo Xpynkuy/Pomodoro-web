@@ -5,5 +5,4 @@ export interface ITasks {
     category: string,
     description: string,
     createdAt: Date,
-    
 }

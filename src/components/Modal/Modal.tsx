@@ -1,6 +1,7 @@
 // components/Modal/Modal.tsx
 import React, { useRef } from "react";
-import { useModalStore } from "../../store/store";
+import { useModalStore } from "../../store/useModalStore";
+
 
 interface ModalProps {
   children: React.ReactNode;
