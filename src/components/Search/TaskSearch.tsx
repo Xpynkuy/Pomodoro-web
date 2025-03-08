@@ -1,8 +1,8 @@
 import React, { useState, useRef, useCallback } from "react";
 import { useSearchStore } from "../../store/useSearchStore";
 import useClickOutside from "../../hooks/useClickOutside";
-import SearchInput from "../UI/Search/SearchInput";
-import SearchIcon from "../UI/Search/SearchIcon";
+import SearchInput from "../UI/search/SearchInput";
+import SearchIcon from "../UI/search/SearchIcon";
 
 
 const TaskSearch: React.FC = () => {

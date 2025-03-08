@@ -1,8 +1,7 @@
 import React from "react";
-
-import Modal from "../UI/Modal/Modal";
-import TaskForm from "../Tasks/TaskForm";
 import { useModalStore } from "../../store/useModalStore";
+import TaskForm from "../Tasks/TaskForm";
+import Modal from "../UI/modal/Modal";
 
 const ModalRoot: React.FC = () => {
   const isModalOpen = useModalStore((state) => state.isModalOpen);

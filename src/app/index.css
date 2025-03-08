@@ -8,14 +8,14 @@ body {
 }
 
 
-/* Для всей страницы или для конкретного контейнера */
+
 ::-webkit-scrollbar {
-  width: 10px;               /* ширина скроллбара */
-  height: 10px;              /* высота (если горизонтальный скролл) */
+  width: 10px;              
+  height: 10px;             
 }
 
 ::-webkit-scrollbar-track {
-  background-color: transparent; /* Цвет фона "дорожки" */
+  background-color: transparent; 
   border-radius: 4px;
 }
 

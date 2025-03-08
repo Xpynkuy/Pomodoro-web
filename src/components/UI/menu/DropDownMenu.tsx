@@ -35,7 +35,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ onEdit, onDelete }) => {
       </button>
       {isOpen && (
         <div
-          className="absolute right-0 mt-1 w-44 bg-white border border-gray-200 
+          className="absolute right-0  w-44 bg-white border border-gray-200 
                      rounded-2xl shadow-lg z-10"
         >
           <ul className="p-2">

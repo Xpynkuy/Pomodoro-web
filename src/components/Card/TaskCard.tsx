@@ -1,9 +1,7 @@
 import React from "react";
+import { useCurrentTaskStore } from "../../store/usePomodoroStore";
+import { useTaskCardHandlers } from "../../hooks/useTaskCardHandlers";
 import { categories } from "../../constants/category";
-import { usePomodoroStore } from "../../store/usePomodoroStore";
-import { useTasksStore } from "../../store/useTaskStore";
-import { useModalStore } from "../../store/useModalStore";
-import { useEditTaskStore } from "../../store/useEditTaskStore";
 import Checkbox from "../UI/checkbox/Checkbox";
 import DropDownMenu from "../UI/menu/DropDownMenu";
 
@@ -18,44 +16,10 @@ interface TaskCardProps {
 }
 
 const TaskCardComponent: React.FC<TaskCardProps> = ({ task }) => {
-  const deleteTask = useTasksStore((state) => state.deleteTask);
-  const toggleTask = useTasksStore((state) => state.toggleTask);
-  const tasks = useTasksStore((state) => state.tasks);
-  const openModal = useModalStore((state) => state.openModal);
-  const setTaskToEdit = useEditTaskStore((state) => state.setTaskToEdit);
-  const { pickTask, currentTaskId } = usePomodoroStore();
+  const { currentTaskId } = useCurrentTaskStore();
+  const { handleCardClick, handleEditTask, handleDeleteTask, handleCheckboxChange } = useTaskCardHandlers(task);
 
   const currentCategory = categories.find((cat) => cat.id === task.category);
-
-  const handleCardClick = () => {
-    pickTask(task.id);
-  };
-
-  const handleEditTask = () => {
-    setTaskToEdit({ ...task, createdAt: new Date() });
-    openModal();
-  };
-
-  const handleDeleteTask = () => {
-    deleteTask(task.id);
-  };
-
-  const handleCheckboxChange = () => {
-    const wasCompleted = task.completed;
-    toggleTask(task.id);
-
-    if (!wasCompleted) {
-      const yes = window.confirm("Do you want to switch task?");
-      if (yes) {
-        const uncompleted = tasks.filter(
-          (t) => !t.completed && t.id !== task.id
-        );
-        if (uncompleted.length > 0) {
-          pickTask(uncompleted[0].id);
-        }
-      }
-    }
-  };
 
   const cardBackground = task.completed ? "bg-gray-50/10" : "bg-gray-100/30";
   const textDecoration = task.completed ? "line-through" : "";

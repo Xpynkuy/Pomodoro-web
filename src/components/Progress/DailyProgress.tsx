@@ -1,8 +1,6 @@
-// components/Progress/DailyProgress.tsx
 import React from "react";
-
-import ProgressCircle from "./ProgressCircle";
 import { useTasksStore } from "../../store/useTaskStore";
+import ProgressCircle from "./ProgressCircle";
 
 const DailyProgress: React.FC = () => {
   const tasks = useTasksStore((state) => state.tasks);

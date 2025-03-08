@@ -1,23 +1,28 @@
 import React, { useEffect } from "react";
+import {
+  useTimerStore,
+  useCurrentTaskStore,
+} from "../../store/usePomodoroStore";
+import { useTasksStore } from "../../store/useTaskStore";
+import { categories } from "../../constants/category";
+import SessionToggle from "./SessionToggle";
 import MyButton from "../UI/button/MyButton";
 import { RotateCcw, SkipForward } from "lucide-react";
-import SessionToggle from "./SessionToggle";
-import { usePomodoroStore } from "../../store/usePomodoroStore";
-import { useTasksStore } from "../../store/useTaskStore";
-import { categories } from "../../constants/category"; // Импортируем категории
 
 const PomodoroTimer: React.FC = () => {
   const {
     timeLeft,
     isRunning,
-    currentTaskId,
+    sessionType,
     startTimer,
     pauseTimer,
     resetTimer,
     skipSession,
     tick,
-  } = usePomodoroStore();
+    getDurationFor,
+  } = useTimerStore();
 
+  const { currentTaskId } = useCurrentTaskStore();
   const tasks = useTasksStore((s) => s.tasks);
   const currentTask = tasks.find((t) => t.id === currentTaskId);
 
@@ -39,14 +44,26 @@ const PomodoroTimer: React.FC = () => {
     return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   };
 
+  // Рассчитываем процент оставшегося времени
+  const progressPercentage = (timeLeft / getDurationFor(sessionType)) * 100;
+
   return (
-    <div className="flex flex-col justify-between items-center gap-4 p-6 h-2/3 rounded-2xl bg-slate-100/20">
+    <div className="flex flex-col flex-1 justify-between items-center gap-4 p-6 rounded-2xl bg-slate-100/20">
       {/* Блок с переключением режима и Reset */}
       <div className="flex justify-between gap-6">
         <SessionToggle />
       </div>
 
-      <div className="text-9xl font-bold">{formatTime(timeLeft)}</div>
+      <div className="flex flex-col items-center gap-2">
+        <div className="text-9xl font-bold">{formatTime(timeLeft)}</div>
+        {/* Полоска прогресса */}
+        <div className="w-full h-2 bg-gray-200/30 rounded-full overflow-hidden">
+          <div
+            className="h-full bg-blue-600/70 transition-all duration-1000 ease-linear rounded-full"
+            style={{ width: `${progressPercentage}%` }}
+          />
+        </div>
+      </div>
 
       {/* Блок с задачей и иконкой */}
       <div className="bg-white/30 p-3 rounded-2xl text-lg flex items-center gap-2">
@@ -69,7 +86,10 @@ const PomodoroTimer: React.FC = () => {
 
       {/* Кнопки управления таймером */}
       <div className="flex justify-center gap-4 h-12">
-        <button onClick={resetTimer} className="bg-red-600/80 rounded-full p-3">
+        <button 
+          onClick={resetTimer} 
+          className="bg-red-600/80 rounded-full p-3 hover:scale-105 transition-transform duration-200"
+        >
           <RotateCcw />
         </button>
         {isRunning ? (
@@ -78,7 +98,10 @@ const PomodoroTimer: React.FC = () => {
           <MyButton onClick={startTimer}>Start</MyButton>
         )}
 
-        <button onClick={skipSession} className="bg-white/70 rounded-full p-3">
+        <button 
+          onClick={skipSession} 
+          className="bg-white/70 rounded-full p-3 hover:scale-105 transition-transform duration-200"
+        >
           <SkipForward />
         </button>
       </div>

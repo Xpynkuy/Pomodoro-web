@@ -17,9 +17,9 @@ const TasksList: React.FC = () => {
   }, [tasks, searchQuery]);
 
   return (
-    <div className="pr-4 h-full">
+    <div className="pr-4 mb-6">
       {filteredTasks.length === 0 ? (
-        <div className="flex items-center justify-center h-full text-gray-500">
+        <div className="flex items-center justify-center h-[500px] text-gray-500">
           No tasks found.
         </div>
       ) : (

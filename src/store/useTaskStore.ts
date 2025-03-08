@@ -1,23 +1,31 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { ITasks } from "../types/types";
 
-interface ITasksStore {
-  tasks: ITasks[];
+export interface Task {
+  id: number;
+  title: string;
+  completed: boolean;
+  category: string;
+  description: string;
+  createdAt?: Date;
+}
+
+interface TasksState {
+  tasks: Task[];
   addTask: (title: string, category: string, description: string) => void;
   deleteTask: (id: number) => void;
   toggleTask: (id: number) => void;
-  updateTask: (id: number, updates: Partial<ITasks>) => void;
+  updateTask: (id: number, updates: Partial<Task>) => void;
 }
 
-export const useTasksStore = create<ITasksStore>()(
+export const useTasksStore = create<TasksState>()(
   persist(
     (set) => ({
       tasks: [],
 
       addTask: (title, category, description) =>
         set((state) => {
-          const newTask: ITasks = {
+          const newTask: Task = {
             id: Date.now(),
             title,
             completed: false,

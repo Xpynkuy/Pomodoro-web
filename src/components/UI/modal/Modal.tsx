@@ -1,4 +1,3 @@
-// components/UI/Modal.tsx
 import React, { useRef } from "react";
 import { useModalStore } from "../../../store/useModalStore";
 
@@ -20,11 +19,11 @@ const Modal: React.FC<ModalProps> = ({ children }) => {
   return (
     <div
       onClick={handleOverlayClick}
-      className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 animate-fadeIn z-50"
     >
       <div
         ref={modalRef}
-        className="z-50 bg-white p-6 rounded-xl shadow-lg w-[500px]"
+        className="bg-white rounded-2xl p-6 w-full max-w-md animate-scaleIn relative z-50"
       >
         {children}
       </div>

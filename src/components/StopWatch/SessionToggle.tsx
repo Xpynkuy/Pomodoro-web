@@ -1,8 +1,6 @@
-// components/StopWatch/SessionToggle.tsx
 import React from "react";
-
+import { useTimerStore } from "../../store/usePomodoroStore";
 import { Coffee, Pickaxe, Timer } from "lucide-react";
-import { usePomodoroStore } from "../../store/usePomodoroStore";
 
 type SessionType = "work" | "shortBreak" | "longBreak";
 
@@ -24,7 +22,7 @@ function indexForType(type: SessionType): number {
 }
 
 const SessionToggle: React.FC = () => {
-  const { sessionType, setSessionType } = usePomodoroStore();
+  const { sessionType, setSessionType } = useTimerStore();
 
   const currentIndex = indexForType(sessionType);
   const highlightStyle = {
