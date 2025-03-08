@@ -12,10 +12,8 @@ const TaskForm: React.FC = () => {
   const { addTask, updateTask } = useTasksStore();
   const { taskToEdit, setTaskToEdit } = useEditTaskStore();
 
-  // Определяем, редактируем ли мы задачу
   const isEditMode = !!taskToEdit;
 
-  // Начальные значения полей (если редактируем - берём из taskToEdit, иначе пустые)
   const [title, setTitle] = useState(isEditMode ? taskToEdit.title : "");
   const [category, setCategory] = useState(
     isEditMode ? taskToEdit.category : ""
@@ -25,7 +23,6 @@ const TaskForm: React.FC = () => {
   );
   const [error, setError] = useState("");
 
-  // Обработка сабмита
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -43,18 +40,15 @@ const TaskForm: React.FC = () => {
     }
 
     if (isEditMode) {
-      // Редактирование
       updateTask(taskToEdit.id, {
         title,
         category,
         description,
       });
     } else {
-      // Создание
       addTask(title, category, description);
     }
 
-    // Закрываем модалку и сбрасываем "редактируемую" задачу
     closeModal();
     setTaskToEdit(null);
   };

@@ -1,6 +1,6 @@
-// components/Modal/Modal.tsx
+// components/UI/Modal.tsx
 import React, { useRef } from "react";
-import { useModalStore } from "../../store/useModalStore";
+import { useModalStore } from "../../../store/useModalStore";
 
 
 interface ModalProps {
@@ -32,4 +32,4 @@ const Modal: React.FC<ModalProps> = ({ children }) => {
   );
 };
 
-export default Modal;
+export default Modal; 

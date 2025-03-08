@@ -45,7 +45,7 @@ const TaskCardComponent: React.FC<TaskCardProps> = ({ task }) => {
     toggleTask(task.id);
 
     if (!wasCompleted) {
-      const yes = window.confirm("Move on to next task?");
+      const yes = window.confirm("Do you want to switch task?");
       if (yes) {
         const uncompleted = tasks.filter(
           (t) => !t.completed && t.id !== task.id

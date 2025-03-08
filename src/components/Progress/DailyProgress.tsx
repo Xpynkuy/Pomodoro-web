@@ -7,19 +7,16 @@ import { useTasksStore } from "../../store/useTaskStore";
 const DailyProgress: React.FC = () => {
   const tasks = useTasksStore((state) => state.tasks);
 
-  // Подсчёт общего и выполненных
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter((t) => t.completed).length;
 
-  // Если нет задач, процент 0, иначе вычисляем
   const percentage = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
 
-  // Получаем текущую дату в удобном формате
   const dateString = new Date().toLocaleDateString("en-US", {
-    weekday: "short",   // например, "Mon"
-    day: "numeric",     // число месяца
-    month: "short",     // например, "Apr"
-    year: "numeric",    // "2023"
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
   });
 
   return (
@@ -31,19 +28,19 @@ const DailyProgress: React.FC = () => {
           <p className="text-white font-semibold bg-blue-600/90 rounded-2xl px-3 py-1">
             {completedTasks} / {totalTasks}
           </p>
-          <span className="font-medium text-lg">Tasks was done</span>
+          {totalTasks > 0 ? (
+            <span className="font-medium text-lg">Tasks was done</span>
+          ) : (
+            <span className="font-medium text-lg text-gray-500">No tasks for today</span>
+          )}
         </div>
 
-        {/* Круг с процентом */}
         <div className="flex justify-center">
           <ProgressCircle percentage={percentage} />
         </div>
       </div>
 
-      {/* Дата внизу */}
-      <div className="text-md text-gray-500 text-left">
-        {dateString}
-      </div>
+      <div className="text-md text-gray-500 text-left">{dateString}</div>
     </div>
   );
 };

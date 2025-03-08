@@ -1,6 +1,6 @@
 import React from "react";
 
-import Modal from "./Modal";
+import Modal from "../UI/Modal/Modal";
 import TaskForm from "../Tasks/TaskForm";
 import { useModalStore } from "../../store/useModalStore";
 
